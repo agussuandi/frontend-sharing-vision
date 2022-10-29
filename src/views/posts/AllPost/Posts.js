@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
-import { CCard, CCardBody, CCardHeader, CNav, CNavItem, CNavLink, CTabContent, CTabPane } from '@coreui/react'
+import { useSelector } from 'react-redux'
+import { CCard, CCardBody, CCardHeader, CNav, CNavItem, CNavLink, CTabContent, CTabPane, CBadge } from '@coreui/react'
 
 import Draft from '../_tabs/draft/Draft'
 import Publish from '../_tabs/publish/Publish'
@@ -8,6 +9,10 @@ import Trashed from '../_tabs/Trashed'
 export default function Posts()
 {
     const [activeKey, setActiveKey] = useState(1)
+
+    const draftCount   = useSelector((state) => state.draftCount)
+    const publishCount = useSelector((state) => state.publishCount)
+    const trashedCount = useSelector((state) => state.trashedCount)
 
     return (
         <CCard className="mb-4">
@@ -23,7 +28,7 @@ export default function Posts()
                             active={activeKey === 1}
                             onClick={() => setActiveKey(1)}
                         >
-                            Drafts
+                            Drafts <CBadge color="info">{draftCount}</CBadge>
                         </CNavLink>
                     </CNavItem>
                     <CNavItem>
@@ -33,7 +38,7 @@ export default function Posts()
                             active={activeKey === 2}
                             onClick={() => setActiveKey(2)}
                         >
-                            Published
+                            Published <CBadge color="info">{publishCount}</CBadge>
                         </CNavLink>
                     </CNavItem>
                     <CNavItem>
@@ -43,7 +48,7 @@ export default function Posts()
                             active={activeKey === 3}
                             onClick={() => setActiveKey(3)}
                         >
-                            Trashed
+                            Trashed <CBadge color="info">{trashedCount}</CBadge>
                         </CNavLink>
                     </CNavItem>
                 </CNav>

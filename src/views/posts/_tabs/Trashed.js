@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { NavLink } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
 
 import CIcon from '@coreui/icons-react'
 import { cilPen } from '@coreui/icons'
@@ -7,13 +8,15 @@ import { CTable, CTableHead, CTableRow, CTableHeaderCell, CTableBody, CTableData
 
 export default function Trashed()
 {
-    const URI_API = 'http://localhost:3333/api/posts'
+    const dispatch = useDispatch()
     const [post, setPosts] = useState([])
+    const URI_API = 'http://localhost:3333/api/posts'
 
     const getPost = async () => {
         const respPost = await fetch(`${URI_API}?status=trashed`)
         const respJson = await respPost.json()
         const data = respJson.data.data.map(row => ({...row, row}))
+        dispatch({ type: 'set', trashedCount: data.length })
         setPosts(data)
     }
 
